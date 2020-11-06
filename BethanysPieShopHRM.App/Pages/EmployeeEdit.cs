@@ -10,22 +10,28 @@ namespace BethanysPieShopHRM.App.Pages
 {
     public partial class EmployeeEdit
     {
-
         [Inject]
         public IEmployeeDataService EmployeeDataService { get; set; }
+
+        [Inject]
+        public ICountryDataService CountryDataService { get; set; }
 
         [Parameter]
         public string EmployeeId { get; set; }
 
         public Employee Employee { get; set; } = new Employee();
+        public List<Country> Countries { get; private set; }
+
+
+        protected string CountryId = string.Empty;
 
         protected override async Task OnInitializedAsync()
         {
           
                 Employee = await EmployeeDataService.GetEmployeeDetails(int.Parse(EmployeeId));
-          
+                Countries = (await CountryDataService.GetAllCountries()).ToList();
 
-         
+            CountryId = Employee.CountryId.ToString();
         }
     }
 }
