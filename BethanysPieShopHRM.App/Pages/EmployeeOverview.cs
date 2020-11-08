@@ -1,4 +1,5 @@
-﻿using BethanysPieShopHRM.App.Services;
+﻿using BethanysPieShopHRM.App.Components;
+using BethanysPieShopHRM.App.Services;
 using BethanysPieShopHRM.Shared;
 using Microsoft.AspNetCore.Components;
 using System;
@@ -13,6 +14,8 @@ namespace BethanysPieShopHRM.App.Pages
     {
 		public IEnumerable<Employee> Employees { get; set; }
 
+		protected AddEmployeeDialog AddEmployeeDialog { get; set; }
+
 		protected async override Task OnInitializedAsync()
 		{
 
@@ -25,7 +28,16 @@ namespace BethanysPieShopHRM.App.Pages
 		//	return base.OnInitializedAsync();
 		}
 
+		protected void QuickAddEmployee()
+		{
+			AddEmployeeDialog.Show();
+		}
 
+		public async void AddEmployeeDialog_OnDialogClose()
+		{
+			Employees = (await EmployeeDataService.GetAllEmployees()).ToList();
+			StateHasChanged();
+		}
 
 		//private List<Country> Countries { get; set; }
 
